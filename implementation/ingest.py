@@ -34,8 +34,8 @@ def fetch_documents():
 
 
 def create_chunks(documents):
-    # Reverting to RecursiveCharacterTextSplitter as MarkdownTextSplitter performed worse.
-    text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
+    # Experimenting with a smaller chunk size of 512 to improve retrieval granularity.
+    text_splitter = RecursiveCharacterTextSplitter(chunk_size=512, chunk_overlap=100)
     chunks = text_splitter.split_documents(documents)
     return chunks
 
