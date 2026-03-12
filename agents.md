@@ -21,6 +21,7 @@ Week steps to complete: create app for user interface that leverages retrieval-a
 
 ### Task Steps:
 1. **Chunking Strategy:** experiment with chunking strategy to optimize for your commercial goal
+2. **Encoder:** select the best Encoder model based on the test set
 
 
 **Files to Edit:**
