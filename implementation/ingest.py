@@ -2,7 +2,7 @@ import os
 import glob
 from pathlib import Path
 from langchain_community.document_loaders import DirectoryLoader, TextLoader
-from langchain_text_splitters import RecursiveCharacterTextSplitter
+from langchain_text_splitters import MarkdownTextSplitter
 from langchain_chroma import Chroma
 from langchain_huggingface import HuggingFaceEmbeddings
 
@@ -34,7 +34,9 @@ def fetch_documents():
 
 
 def create_chunks(documents):
-    text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
+    # Experimenting with smaller chunks (300) and higher overlap (50) 
+    # to capture specific insurance policy nuances and employee bio details more effectively.
+    text_splitter = MarkdownTextSplitter(chunk_size=300, chunk_overlap=50)
     chunks = text_splitter.split_documents(documents)
     return chunks
 
