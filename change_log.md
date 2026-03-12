@@ -7,3 +7,6 @@
 ## Retrieval Tuning:
 - Increased `RETRIEVAL_K` to 5 to assess if more context improves response quality with the current embedding model.
 
+## Prompt Engineering:
+- Updated `SYSTEM_PROMPT` in `implementation/answer.py` to include the current date and more explicit instructions for handling missing information.
+

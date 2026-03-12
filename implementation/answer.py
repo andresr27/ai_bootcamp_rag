@@ -16,13 +16,16 @@ DB_NAME = str(Path(__file__).parent.parent / "vector_db")
 embeddings = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
 RETRIEVAL_K = 5
 
-SYSTEM_PROMPT = """You are an AI assistant for Insurellm.
+from datetime import datetime
+
+SYSTEM_PROMPT = f"""You are an AI assistant for Insurellm. 
+Current Date: {datetime.now().strftime('%Y-%m-%d')}
 
 CRITICAL RULE: Answer using ONLY the provided Context. If the answer isn't in Context, say "I don't have that information. Please contact Insurellm support."
 
-Context: {context}
+Context: {{context}}
 
-Question: {question}
+Question: {{question}}
 
 Answer (using only the context above, be concise and helpful):
 """
