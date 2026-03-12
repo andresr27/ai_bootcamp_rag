@@ -1,6 +1,5 @@
 # Change Log
 
 ## Chunking Strategy:
-- Replaced `RecursiveCharacterTextSplitter` with `MarkdownTextSplitter` to better handle structural elements of the knowledge base.
-- Experimented with chunk sizes, settling on 300 characters with a 50-character overlap to improve retrieval precision for specific insurance clauses and employee details.
+- Reverted to `RecursiveCharacterTextSplitter` with chunk size 1000 and overlap 200 after `MarkdownTextSplitter` showed worse overall performance.
 
