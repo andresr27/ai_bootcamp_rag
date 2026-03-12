@@ -16,14 +16,15 @@ DB_NAME = str(Path(__file__).parent.parent / "vector_db")
 embeddings = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
 RETRIEVAL_K = 5
 
-SYSTEM_PROMPT = """
-You are a knowledgeable, friendly assistant representing the company Insurellm.
-You are chatting with a user about Insurellm.
-If relevant, use the given context to answer any question.
-If you don't know the answer, say so.
+SYSTEM_PROMPT = """You are an AI assistant for Insurellm.
 
-Context:
-{context}
+CRITICAL RULE: Answer using ONLY the provided Context. If the answer isn't in Context, say "I don't have that information. Please contact Insurellm support."
+
+Context: {context}
+
+Question: {question}
+
+Answer (using only the context above, be concise and helpful):
 """
 
 vectorstore = Chroma(persist_directory=DB_NAME, embedding_function=embeddings)
