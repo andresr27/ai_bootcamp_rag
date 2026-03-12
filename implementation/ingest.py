@@ -34,9 +34,9 @@ def fetch_documents():
 
 
 def create_chunks(documents):
-    # Using MarkdownTextSplitter for better structural awareness of the .md files
-    # Reducing chunk size to 500 for more granular retrieval of specific insurance clauses and employee details
-    text_splitter = MarkdownTextSplitter(chunk_size=500, chunk_overlap=100)
+    # Experimenting with smaller chunks (300) and higher overlap (50) 
+    # to capture specific insurance policy nuances and employee bio details more effectively.
+    text_splitter = MarkdownTextSplitter(chunk_size=300, chunk_overlap=50)
     chunks = text_splitter.split_documents(documents)
     return chunks
 
