@@ -6,3 +6,6 @@
 
 ## Encoder Selection:
 - Upgraded the embedding model from `all-MiniLM-L6-v2` to `all-mpnet-base-v2` to leverage a larger model for better semantic understanding of insurance contracts and professional bios.
+
+## Retrieval Tuning:
+- Increased `RETRIEVAL_K` from 3 to 5 to provide the LLM with more context, which is particularly useful given the smaller chunk sizes implemented previously.

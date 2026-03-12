@@ -14,7 +14,7 @@ MODEL = "gpt-4.1-nano"
 DB_NAME = str(Path(__file__).parent.parent / "vector_db")
 
 embeddings = HuggingFaceEmbeddings(model_name="all-mpnet-base-v2")
-RETRIEVAL_K = 3
+RETRIEVAL_K = 5
 
 SYSTEM_PROMPT = """
 You are a knowledgeable, friendly assistant representing the company Insurellm.
@@ -35,7 +35,7 @@ def fetch_context(question: str) -> list[Document]:
     """
     Retrieve relevant context documents for a question.
     """
-    return retriever.invoke(question, k=RETRIEVAL_K)
+    return retriever.bind(k=RETRIEVAL_K).invoke(question)
 
 
 def answer_question(question: str, history: list[dict] = []) -> tuple[str, list[Document]]:
