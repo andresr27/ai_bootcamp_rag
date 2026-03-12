@@ -9,3 +9,6 @@
 
 ## Retrieval Tuning:
 - Increased `RETRIEVAL_K` from 3 to 5 to provide the LLM with more context, which is particularly useful given the smaller chunk sizes implemented previously.
+
+## Fixes:
+- Implemented a fix to handle embedding dimension mismatches by ensuring the existing Chroma collection is deleted before re-ingesting data with a new model.
