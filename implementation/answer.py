@@ -14,25 +14,25 @@ MODEL = "gpt-4.1-nano"
 DB_NAME = str(Path(__file__).parent.parent / "vector_db")
 
 embeddings = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
-RETRIEVAL_K = 5
+# Bigger net (k=5): Catch that fish + others swimming nearby with related keywords
+RETRIEVAL_K = 10
+vectorstore = Chroma(persist_directory=DB_NAME, embedding_function=embeddings)
+retriever = vectorstore.as_retriever(search_kwargs={"k": RETRIEVAL_K})
+llm = ChatOpenAI(temperature=0, model_name=MODEL)
+
 
 from datetime import datetime
 
+# "RAG-Optimized" Minimal Version (Fast & Effective)
 SYSTEM_PROMPT = f"""You are an AI assistant for Insurellm. 
 Current Date: {datetime.now().strftime('%Y-%m-%d')}
 
 CRITICAL RULE: Answer using ONLY the provided Context. If the answer isn't in Context, say "I don't have that information. Please contact Insurellm support."
 
 Context: {{context}}
-
-Question: {{question}}
-
+Z
 Answer (using only the context above, be concise and helpful):
 """
-
-vectorstore = Chroma(persist_directory=DB_NAME, embedding_function=embeddings)
-retriever = vectorstore.as_retriever()
-llm = ChatOpenAI(temperature=0, model_name=MODEL)
 
 
 def fetch_context(question: str) -> list[Document]:

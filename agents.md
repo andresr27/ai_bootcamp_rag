@@ -21,7 +21,16 @@ Week steps to complete: create app for user interface that leverages retrieval-a
 
 ### Task Steps:
 1. **Chunking Strategy:** experiment with chunking strategy to optimize for your commercial goal
-2. **Encoder:** select the best Encoder model based on the test set
+2. **Encoder:** select the best Encoder model and k value based on a test set. A
+    - Add selector to the app to allow for dynamic selection of the encoder and k value.
+      - Add models to test:
+        models_to_test = [
+      "all-MiniLM-L6-v2",                          # Your current (fast/light)
+      "BAAI/bge-small-en-v1.5",                    # Better performance, still small
+      "intfloat/e5-large-v2",                       # Higher quality, slower
+    ]
+3. **Improve Prompts:** general content, the current date, relevant context and history.
+
 
 
 **Files to Edit:**
