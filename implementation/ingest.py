@@ -1,6 +1,5 @@
 import os
 import glob
-import chromadb
 from pathlib import Path
 from langchain_community.document_loaders import DirectoryLoader, TextLoader
 from langchain_text_splitters import MarkdownTextSplitter
@@ -14,7 +13,7 @@ MODEL = "gpt-4.1-nano"
 DB_NAME = str(Path(__file__).parent.parent / "vector_db")
 KNOWLEDGE_BASE = str(Path(__file__).parent.parent / "knowledge-base")
 
-embeddings = HuggingFaceEmbeddings(model_name="all-mpnet-base-v2")
+embeddings = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
 
 load_dotenv(override=True)
 
@@ -44,12 +43,7 @@ def create_chunks(documents):
 
 def create_embeddings(chunks):
     if os.path.exists(DB_NAME):
-        # Use raw chromadb client to delete collection without dimension validation
-        client = chromadb.PersistentClient(path=DB_NAME)
-        try:
-            client.delete_collection("langchain")
-        except ValueError:
-            pass
+        Chroma(persist_directory=DB_NAME, embedding_function=embeddings).delete_collection()
 
     vectorstore = Chroma.from_documents(
         documents=chunks, embedding=embeddings, persist_directory=DB_NAME
