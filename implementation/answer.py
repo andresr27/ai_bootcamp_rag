@@ -13,7 +13,7 @@ load_dotenv(override=True)
 MODEL = "gpt-4.1-nano"
 DB_NAME = str(Path(__file__).parent.parent / "vector_db")
 
-embeddings = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
+embeddings = HuggingFaceEmbeddings(model_name="all-mpnet-base-v2")
 RETRIEVAL_K = 3
 
 SYSTEM_PROMPT = """
