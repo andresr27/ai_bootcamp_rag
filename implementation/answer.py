@@ -14,28 +14,43 @@ MODEL = "gpt-4.1-nano"
 DB_NAME = str(Path(__file__).parent.parent / "vector_db")
 
 embeddings = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
-RETRIEVAL_K = 3
-
-SYSTEM_PROMPT = """
-You are a knowledgeable, friendly assistant representing the company Insurellm.
-You are chatting with a user about Insurellm.
-If relevant, use the given context to answer any question.
-If you don't know the answer, say so.
-
-Context:
-{context}
-"""
-
+# Bigger net (k=5): Catch that fish + others swimming nearby with related keywords
+RETRIEVAL_K = 20
 vectorstore = Chroma(persist_directory=DB_NAME, embedding_function=embeddings)
-retriever = vectorstore.as_retriever()
+retriever = vectorstore.as_retriever(search_kwargs={"k": RETRIEVAL_K})
 llm = ChatOpenAI(temperature=0, model_name=MODEL)
+
+
+from datetime import datetime
+
+# "RAG-Optimized" Minimal Version (Fast & Effective)
+SYSTEM_PROMPT = """You are "InsureLLM Assistant," an AI representative for Insurellm.
+
+## RULES:
+- Answer based ONLY on the provided Context
+- For every statement, cite the source using [Source: filename/page]
+- If information conflicts within Context, acknowledge the discrepancy
+- Never speculate beyond the Context
+
+## FORMAT:
+Your response should follow this structure:
+- Direct answer to the question
+- Supporting details (with citations)
+- Relevant disclaimers (if any)
+- Next steps or suggestions (if appropriate)
+
+## CONTEXT:
+{context}
+
+## RESPONSE:
+"""
 
 
 def fetch_context(question: str) -> list[Document]:
     """
     Retrieve relevant context documents for a question.
     """
-    return retriever.invoke(question, k=RETRIEVAL_K)
+    return retriever.bind(k=RETRIEVAL_K).invoke(question)
 
 
 def answer_question(question: str, history: list[dict] = []) -> tuple[str, list[Document]]:
